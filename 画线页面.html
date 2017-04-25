@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>两点间连线</title> 
+<style type="text/css"> 
+.style1 { 
+  font-size: x-small; 
+} 
+#div1{width:150px; height:200px; background:rgb(224, 221, 216); position:absolute; left:-150px; top:200px; border-style:solid; border-width:2px}
+#div1 span { position:absolute; width:20px; height:60px; line-height:20px; background:rgb(169, 160, 199); right:-20px; top:70px;}
+#div2 {width:100px; height:200px; background:#ccc; display:none; position:absolute; left:200px; top:24px}
+</style> 
+<script type="text/javascript"> 
+function showHide()
+{
+	var oDiv2 = document.getElementById('div2');
+	
+	if(oDiv2.style.display=='block')
+	{
+		oDiv2.style.display='none';
+	}else
+	{
+		oDiv2.style.display='block';
+	}
+}
+
+
+
+/**
+  画点
+*/  
+function makedot(x, y){ 
+ pointDiv = "<div style='height:5px;position:absolute;left:" + x +
+   "px;top:" + y + "px;width:5px;background:#f00;overflow:hidden'></div>"; 
+ return pointDiv;
+} 
+/** 
+ 根据两点坐标画直线。 
+*/ 
+
+function line(x1,y1,x2,y2){ 
+ var slope; //斜率
+ var direction;//坐标运动方向
+ var tx = x2 - x1;
+ var ty = y2 - y1;
+ if(tx == 0 && ty == 0)return;
+ var points = "";
+ var axis;//坐标轴上的坐标
+ if(Math.abs(tx) >= Math.abs(ty)){//在x轴上移动
+   direction = tx > 0 ? 1 : -1;
+   tx = Math.abs(tx);
+   slope = ty / tx;
+   axis = x1;
+   for(i = 0; i < tx; i ++){
+     points += makedot(axis, y1 + i * slope);
+     axis += direction;
+   }
+    
+ }else{//在y轴上移动
+   direction = ty > 0 ? 1 : -1;
+   ty = Math.abs(ty);
+   slope = tx / ty; 
+   axis = y1;  
+   for(i = 0; i < ty; i ++){
+     points += makedot(x1 + i * slope, axis);
+     axis += direction;
+   }
+ }
+ var container = document.getElementById("container");
+ container.innerHTML += points; 
+} 
+var oldPoint = null;
+//获取鼠标位置
+function mousePosition(ev){
+  ev = ev || window.event;
+ if(ev.pageX || ev.pageY){
+    return {x:ev.pageX, y:ev.pageY};
+  }
+  var doc = document.documentElement, body = document.body;
+  var pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+  var pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);    
+  return {x:pageX, y:pageY};
+}
+
+function recordPoint(ev){
+  
+  var point = mousePosition(ev);
+  
+  if(oldPoint != null){
+	  var oRad2=document.getElementById('rad2');
+	  var oRad1=document.getElementById("rad1");
+	  if(a<1&&oRad1.checked)
+	  {
+		   var a=1;
+		  return oldPoint = point;
+		  
+		  
+	  }
+    line(oldPoint.x, oldPoint.y, point.x, point.y);
+	
+	if(oRad1.checked)
+	{
+		var a=1;
+		return oldPoint=null;
+		
+	}
+	else if(oRad2.checked)
+	{
+		var a=0;
+	}
+  }
+  oldPoint = point;
+}
+
+
+
+window.onload=function ()
+{
+var oDiv=document.getElementById('div1');
+	
+	oDiv.onmouseover=function()
+	{
+		startMove();
+	};
+	oDiv.onmouseout=function()
+	{
+		startMove2();
+	};
+};
+
+var timer=null;
+
+function startMove()
+{
+	var oDiv=document.getElementById('div1');
+	
+	clearInterval(timer);
+	timer=setInterval(function (){
+		    if(oDiv.offsetLeft==0)
+			{
+				clearInterval(timer);
+			}  
+			else
+			{
+				oDiv.style.left=oDiv.offsetLeft+10+'px';
+			}
+		},30);
+}
+
+function startMove2()
+{
+	var oDiv=document.getElementById('div1');
+	
+	clearInterval(timer);
+	timer=setInterval(function ()
+	{
+		if(oDiv.offsetLeft==-150)
+		{
+			clearInterval(timer);
+		}
+		else
+		{
+			oDiv.style.left=oDiv.offsetLeft-10+'px';
+		}
+	},30);
+
+}
+</script>
+</head> 
+
+<body id="body1"> 
+<div id="container" style="width: 1000px; height: 600px; margin-Left:300px; border:2px #bfbfbf solid;" onclick="recordPoint(event);">
+</div>
+<label id="lab1" style=" position: absolute; top:0px" ><input id="rad1" type="radio" name="radio" value="1" checked="checked">断点连线</label>
+<label id="lab2" style=" position: absolute; top:0px; left:100px" ><input id="rad2" type="radio" name="radio" value="2">连续连线</label>
+<div id="div1">
+    <span>侧边栏</span>
+</div>
+
+<input name="按钮" type="button" style="position:absolute; left:200px; top:0px" onclick="showHide()" value="菜单"/>
+<div id="div2" >
+
+</div>
+<script type="text/javascript"> 
+  //line(19,19,22,300); 
+</script>
+</body> 
+</html>
