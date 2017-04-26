@@ -1,55 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <title>Á½µãÖ®¼ä»­ÕÛÏß</title>
+    <title>ä¸¤ç‚¹ä¹‹é—´ç”»ç›´çº¿</title>
     <style type="text/css">
         body{
-            font-s¡¢ize:12px;
+            font-size:12px;
         }
     </style>
 </head>
+
+<body>
+<canvas id="myCanvas" width="600" height="500" style="border:1px solid #c3c3c3;">
+    Your browser does not support the canvas element.
+</canvas>
+<button type="button" onclick="duandian()">æ–­ç‚¹è¿žçº¿</button>
+<button type="button" onclick="lianxu()">è¿žç»­è¿žçº¿</button>
 <script type="text/javascript">
     <!--
+    var dhbd=0;
+    function duandian()
+    {dhbd=0;dot.splice(0,4);}
+    function lianxu()
+    {dhbd=1;dot.splice(0,4);}
     var dot=new Array();
-    document.onmousedown =function(a)//mouseDown() º¯Êýµ±Êó±ê°´Å¥ÔÚ¶ÎÂäÉÏ±»°´ÏÂÊ±´¥·¢£»mouseUp() º¯ÊýÔÚÊó±ê°´Å¥±»ÊÍ·ÅÊ±´¥·¢
+    document.onmousedown =function (a)//mouseDown() å‡½æ•°å½“é¼ æ ‡æŒ‰é’®åœ¨æ®µè½ä¸Šè¢«æŒ‰ä¸‹æ—¶è§¦å‘ï¼›mouseUp() å‡½æ•°åœ¨é¼ æ ‡æŒ‰é’®è¢«é‡Šæ”¾æ—¶è§¦å‘
     {
-        //Èôdiv´æÔÚ£¬ÔòÉ¾³ý
+        //è‹¥divå­˜åœ¨ï¼Œåˆ™åˆ é™¤
         if(document.getElementById('line_div')){
             var clearDiv=document.getElementById("line_div");
             clearDiv.parentNode.removeChild(clearDiv);
         }
-        //°´ÏÂÊ±´´½¨Ò»¸öÊÂ¼þ
+        //æŒ‰ä¸‹æ—¶åˆ›å»ºä¸€ä¸ªäº‹ä»¶
         if(!a) a=window.event;
-        //»ñÈ¡xÖá¡¢yÖá×ø±ê
-        var x=a.clientX;
-        var y=a.clientY;
-        //µ±Êý×é³¤¶È´óÓÚµÈÓÚ4Ê±£¬Çå¿ÕÊý×é
-        if(dot.length>=4) dot.splice(0,4);
-        //½«x¡¢yÌí¼Óµ½Êý×éÖÐ,Êý×éÖÐ±£´æÁËÁ½×é×ø±êÖµ£¬Ïàµ±ÓÚÒ³ÃæÉÏµÄA(x1,y1)¡¢B(x2,y2)Á½µã
-        dot.push(x,y);
-        //µ±Êý×é³¤¶ÈÎª4Ê±£¬»­Ïß¡£
+        //èŽ·å–xè½´ã€yè½´åæ ‡
+        var x;
+        var y;
+
+        //å½“æ•°ç»„é•¿åº¦å¤§äºŽç­‰äºŽ4æ—¶ï¼Œæ¸…ç©ºæ•°ç»„
+        if(dhbd==0){if(dot.length>=4) dot.splice(0,4);}
+        if(dhbd==1){if(dot.length>=4) {dot[0]=dot[2];
+       dot[1]=dot[3];dot.splice(2,2);};}
+        //å°†xã€yæ·»åŠ åˆ°æ•°ç»„ä¸­,æ•°ç»„ä¸­ä¿å­˜äº†ä¸¤ç»„åæ ‡å€¼ï¼Œç›¸å½“äºŽé¡µé¢ä¸Šçš„A(x1,y1)ã€B(x2,y2)ä¸¤ç‚¹
+        if (a.clientX<=600&&a.clientY<=500) {x=a.clientX; y=a.clientY; dot.push(x,y);}//é˜²æ­¢ç‚¹åˆ°ç”»å¸ƒä»¥å¤–ï¼›
+        //å½“æ•°ç»„é•¿åº¦ä¸º4æ—¶ï¼Œç”»çº¿ã€‚
         if(dot.length==4){
-            //¼ÆËãdivµÄ³¤ºÍ¿í
-            var width=Math.abs(dot[0]-dot[2]);
-            var height=Math.abs(dot[1]-dot[3]);
-            //ÔÚÒ³ÃæÉÏ¶¨Î»div×óÉÏ½ÇµÄ¾ßÌåÎ»ÖÃ
-            var left=dot[0]-dot[2]<0?dot[0]:dot[2];
-            var top=dot[1]-dot[3]<0?dot[1]:dot[3];
-            //´´½¨div
-            var div=document.createElement("div");
-            div.innerHTML=' <div id="line_div" style="width:'+width+'px;' +
-                'height:'+height+'px;position:absolute;visibility:visible;' +
-                'left:'+left+'px;top:'+top+'px;' +
-                'border-left:1px solid #cdcdcd;' +
-                'border-top:1px solid #cdcdcd;">' +
-                '</div>';
-            document.body.appendChild(div);
+            //è®¡ç®—divçš„é•¿å’Œå®½
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            cxt.moveTo(dot[0],dot[1]);
+            cxt.lineTo(dot[2],dot[3]);
+           // cxt.lineTo(10,70);
+            cxt.stroke();
         }
     }
     -->
 </script>
-<body>
 </body>
 </html>
