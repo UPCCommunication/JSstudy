@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .headline {
+            color: #F00;
+            font-family: "SimHei";
+            font-size: xx-large;
+            text-align: center;
+            height: 80px;
+            width: auto;
+        }
+        .kongjian{
+            width:400px; height:150px;
+            text-align:center;
+            font-family:"宋体";
+            font-size:12px;
+            color:#FFFFFF;  }
+        .p1{ line-height:1.2em;}
+    </style>
+    <title>物理实验</title>
+</head>
+<body>
+<script type="text/javascript">
+    var kj1num=0;
+    var kj2num=0;
+    var kj3num=0;
+    var dot=new Array(4);
+        function start() {
+            kj1num=0;
+            kj2num=0;
+            kj3num=0;
+            document.getElementById("dp").src="小灯泡.jpg"
+    }
+    function kj1oneclick(){
+            if(kj1num<2) {kj1num++;}
+        else {confirm("请注意不要让电源短路"); kj1num++;}
+        if(dot.length<4) dot.push(600,80);
+        if(dot.length==4){
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            cxt.moveTo(dot[0],dot[1]);
+            cxt.lineTo(dot[2],dot[3]);
+            // cxt.lineTo(10,70);
+            cxt.stroke();
+            dot.splice(0,4);
+        }
+        }
+    function kj2oneclick(){
+        kj2num++;
+        if(dot.length<4) dot.push(300,400);
+        if(dot.length==4){
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            cxt.moveTo(dot[0],dot[1]);
+            cxt.lineTo(dot[2],dot[3]);
+            // cxt.lineTo(10,70);
+            cxt.stroke();
+            dot.splice(0,4);
+        }
+    }
+        }
+    function kj3oneclick(){
+        kj3num++;
+        if(dot.length<4) dot.push(700,300);
+        if(dot.length==4){
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            cxt.moveTo(dot[0],dot[1]);
+            cxt.lineTo(dot[2],dot[3]);
+            // cxt.lineTo(10,70);
+            cxt.stroke();
+            dot.splice(0,4);
+        }
+    }
+        }
+        function shiyan() {
+            if (kj1num==2||kj2num==2||kj3num==2) document.getElementById("dp").src="灯泡亮.jpg";
+        }
+
+</script>
+
+<div class="headline">物理实验</div>
+<canvas id="myCanvas" width="1000" height="800" style="border:1px solid #c3c3c3;">
+    Your browser does not support the canvas element.
+</canvas>
+<div height="600">
+    <DIV class="kongjian" id=KJ1 style="POSITION: absolute; LEFT: 400px; TOP: 77px">
+        <P class=p1><img style="CURSOR: pointer"  src="电池.jpg" onclick="kj1oneclick()">
+        </P>
+        <P class=p1 id=KJname1>电池</P></DIV>
+    <DIV class="kongjian" id=KJ2 style="POSITION: absolute; LEFT: 100px; TOP: 300px">
+        <P class=p1><img style="CURSOR: pointer"  src="开关.jpg" onclick="kj2oneclick()">
+        </P>
+        <P class=p1 id=KJname2>开关</P></DIV>
+    <DIV class="kongjian" id=KJ3 style="POSITION: absolute; LEFT: 600px; TOP: 300px">
+        <P class=p1><img id=dp style="CURSOR: pointer"  src="小灯泡.jpg" onclick="kj3oneclick()">
+        </P>
+        <P class=p1 id=KJname3>小灯泡</P></DIV>
+</div>
+<div><button onclick="start()">开始试验</button>
+<button onclick="shiyan()">查看结果</button> </div>
+</body>
+</html>
